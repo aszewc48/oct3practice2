@@ -3,7 +3,7 @@ import { useContext } from 'react'
 import { AuthContext } from '../contexts/auth.contexts'
 
 const NavBar = () => {
-    const {isLoggedIn,user} = useContext(AuthContext)
+    const {isLoggedIn,user,logOutUser} = useContext(AuthContext)
     return (
         <nav style={{display: 'flex', justifyContent: 'space-around'}}>
             <Link to='/'>Home</Link>
@@ -11,7 +11,7 @@ const NavBar = () => {
             <>
             <Link to='/project-list'>Project List</Link>
             <Link to='/project/create'>Add Project</Link>
-            <Link to='/logout'>Log Out</Link>
+            <button to='/logout' onClick={() => logOutUser()}>Log Out</button>
             </>
             )}
             {!isLoggedIn && (

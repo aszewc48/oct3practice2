@@ -2,10 +2,17 @@ import {useState,useEffect} from 'react'
 import {Link} from 'react-router-dom'
 import axios from 'axios'
 
+
 const ProjectListPage = () => {
     const [projectsArray,setProjectsArray] = useState([])
     useEffect(() => {
-        axios.get('http://localhost:3001/api/projects')
+        const storedToken = localStorage.getItem('authToken')
+        axios.get('http://localhost:3001/api/projects',
+        {
+            headers: {
+                authorization: `Bearer ${storedToken}`
+            }
+        })
             .then(res => setProjectsArray(res.data.projects))
             .catch(err => console.log(err))
     }, [])
@@ -14,7 +21,7 @@ const ProjectListPage = () => {
             <h1>hey from project list page</h1>
             {projectsArray.map(element => {
                 return (
-                    <div>
+                    <div key={element._id}>
                         <h3>{element.title}</h3>
                         <p>{element.description}</p>
                         <Link to={`/project/${element._id}`}>View Project</Link>

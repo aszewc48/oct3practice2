@@ -10,7 +10,12 @@ const SingleProjectPage = () => {
     const {projectId} = useParams()
 
     const getSingleProject = (projectId) => {
-        axios.get(`http://localhost:3001/api/projects/${projectId}`)
+        const storedToken = localStorage.getItem('authToken')
+        axios.get(`http://localhost:3001/api/projects/${projectId}`, {
+            headers: {
+                authorization: `Bearer ${storedToken}`
+            }
+        })
         .then(res => setSingleProject(res.data.project))
         .catch(err => console.log('Error getting single page data:', err))
     }
@@ -20,7 +25,12 @@ const SingleProjectPage = () => {
     }, [projectId])
 
     const deleteProject = projectId => {
-        axios.delete(`http://localhost:3001/api/projects/${projectId}`)
+        const storedToken = localStorage.getItem('authToken')
+        axios.delete(`http://localhost:3001/api/projects/${projectId}`, {
+            headers: {
+                authorization: `Bearer ${storedToken}`
+            }
+        })
             .then(res => {
                 console.log(res)
                 navigate('/project-list')
@@ -31,12 +41,12 @@ const SingleProjectPage = () => {
         <div>
             {singleProject && (
                 <>
-                <div>
+                <div key={singleProject._id}>
                     <h2>{singleProject.title}</h2>
                     <p>{singleProject.description}</p>
                     {singleProject.task.map(element => {
                         return (
-                            <div>Task: {element.title}</div>
+                            <div key={element._id}>Task: {element.title}</div>
                         )
                     }
                     )}

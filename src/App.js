@@ -7,6 +7,8 @@ import NavBar from './components/NavBar';
 import AddProject from './pages/AddProject';
 import SignupPage from './pages/SignupPage';
 import LoginPage from './pages/LoginPage';
+import IsPrivate from './components/IsPrivate';
+import IsAnon from './components/isAnon';
 
 function App() {
   return (
@@ -14,11 +16,15 @@ function App() {
       <NavBar />
       <Routes>
         <Route path='/' element={<h1>Home Page</h1>} />
-        <Route path='/signup' element={<SignupPage />} />
-        <Route path='/login' element={<LoginPage />} />
-        <Route path='/project-list' element={<ProjectListPage />} />
-        <Route path='/project/:projectId' element={<SingleProjectPage />} />
-        <Route path='/project/create' element={<AddProject />} />
+        <Route path='/signup' element={<IsAnon><SignupPage /></IsAnon>} />
+        <Route path='/login' element={<IsAnon><LoginPage /></IsAnon>} />
+        <Route path='/project-list' element={<IsPrivate><ProjectListPage /></IsPrivate>} />
+        <Route path='/project/:projectId' element={<IsPrivate><SingleProjectPage /></IsPrivate>} />
+        <Route path='/project/create' element={
+        <IsPrivate>
+        <AddProject />
+        </IsPrivate>
+        } />
       </Routes>
     </div>
   );
